@@ -1,13 +1,9 @@
 clear all
 
-%myDir = 'C:\Users\simky\Downloads\Sun_104633\Sun_104633_FITS\converted';
-
-%myDir = 'D:\testmardi\TiffSeq20210621_010633\Ha16__2021-06-14_T_17-01-43-0825_L\converted'
-
 fname ='data.json';
 str = fileread(fname)
 data = jsondecode(str);
-myDir=data.rootdir;
+myDir=strcat(data.rootdir,'\converted');
 
 myFiles = dir(fullfile(myDir,'corrected_*.tif'));
 
