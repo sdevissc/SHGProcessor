@@ -7,6 +7,7 @@ fname ='data.json';
 str = fileread(fname)
 data = jsondecode(str);
 myDir=data.rootdir;
+TransveraliumBlur=data.TransveraliumBlur;
 
 destDir = strcat(myDir,'\converted')
 if ~exist(destDir, 'dir')
@@ -39,6 +40,14 @@ fullFileName = fullfile(myDir, baseFileName);
 frame_orig=imread(fullFileName);%:\Users\simky\Downloads\Sun_104633\out.fit');
 frame_orig =  imrotate( frame_orig , -90 );
 imagesc(frame_orig);
+
+%Transversalium calculation
+
+tr=mean(frame_orig,2);
+tr_LF= imgaussfilt(tr,TransveraliumBlur);
+tr_HF=tr./tr_LF;
+
+
 
 disp('Define the lines fitting limits')
 froi = drawrectangle('StripeColor','y');
@@ -109,6 +118,7 @@ for k = 1:length(myFiles)
          frame_corr(i,1:size(fr,2)-corr(i))=fr(i,1+corr(i):size(fr,2));
     end
     frame_corr=imresize(frame_corr,[size(frame_corr,1),size(frame_corr,2)/sfact]);
+    frame_corr=uint16(double(frame_corr)./tr_HF);
     imwrite(frame_corr,fullfile(destDir,strcat('corrected_',baseFileName)));
 end
 disp('done')

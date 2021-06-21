@@ -47,7 +47,7 @@ for k = 1:length(myFiles)
     fullFileName = fullfile(myDir, baseFileName);
     fr=imread(fullFileName);
     u=1;
-    for c=xi-5:xi+5 % wav
+    for c=xi-8:xi+8 % wav
         cube(:,k,u)=fr(:,c);
         u=u+1;
     end
