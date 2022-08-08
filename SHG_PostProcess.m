@@ -6,18 +6,18 @@ data = jsondecode(str);
 myDir=strcat(data.rootdir,'\converted');
 
 myFiles = dir(fullfile(myDir,'corrected_*.tif'));
-
+C = natsortfiles({myFiles.name});
 baseFileName = myFiles(1).name;
 fullFileName = fullfile(myDir, baseFileName);
 fr=imread(fullFileName);
 
 bestFrame=0;
 highestMean=-10;
-for k = 1:length(myFiles)
+for k = 1:numel(C)
     if mod(k,100)==0
         disp(k)
     end
-    baseFileName = myFiles(k).name;
+    baseFileName = C{k};
     fullFileName = fullfile(myDir, baseFileName);
     fr=imread(fullFileName);
     thismean=mean(fr(:));
@@ -27,7 +27,7 @@ for k = 1:length(myFiles)
     end
 end
 
-baseFileName = myFiles(bestFrame).name;
+baseFileName = C{bestFrame};
 fullFileName = fullfile(myDir, baseFileName);
 fr=imread(fullFileName);
 imagesc(fr);
@@ -41,9 +41,9 @@ hold off
 
 
 
-for k = 1:length(myFiles)
+for k = 1:numel(C)
     disp(k)
-    baseFileName = myFiles(k).name;
+    baseFileName = C{k};
     fullFileName = fullfile(myDir, baseFileName);
     fr=imread(fullFileName);
     u=1;
